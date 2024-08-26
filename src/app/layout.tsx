@@ -5,6 +5,7 @@ import { Box, Grid, Theme } from '@radix-ui/themes';
 import "./globals.css";
 import '@radix-ui/themes/styles.css';
 import { SideBar } from '@/components/core/navigation/side-bar';
+import { TopBar } from '@/components/core/navigation/top-bar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body className={inter.className}>
-                <Theme>
-                    <Grid columns={ 'auto 1fr' } className={ 'h-dvh' }>
+                <Theme accentColor={ 'gray' }>
+                    <Grid columns={ 'auto 1fr' } rows={ 'auto 1fr' } className={ 'h-dvh' }>
                         <SideBar />
+                        <TopBar />
                         <Box>
                             { children }
                         </Box>
