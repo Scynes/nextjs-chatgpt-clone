@@ -11,7 +11,8 @@ export const Sidebar = () => {
     const { sidebarExpanded } = useLayoutStore();
     
     return (
-        <Flex direction={ 'column' } className={ `h-full transition-all ${ sidebarExpanded ? 'w-[260px] px-3' : 'w-0 px-0' } pb-3 overflow-hidden row-span-2 border-r border-[--gray-6]` }>
+        <Flex direction={ 'column' } className={ `h-full transition-all ${ sidebarExpanded ? 'w-[260px]' : 'w-0' } overflow-hidden row-span-2 border-r border-[--gray-6]` }>
+            <Flex direction={ 'column' } className={ 'h-full w-[260px] px-3 pb-3' }>
             <Box>
                 <Flex className={ 'h-14' } align={ 'center' }>
                     <ToggleSidebarButton />
@@ -24,6 +25,7 @@ export const Sidebar = () => {
                 </Button>
             </Flex>
             <SidebarActions />
+            </Flex>
         </Flex>
     );
 }

@@ -4,7 +4,7 @@ import { FiExternalLink } from "react-icons/fi";
 
 export const SidebarActions = () => {
     return (
-        <Flex direction={ 'column' } className={ 'flex-1 pt-3 border-t border-[--gray-6]' }>
+        <Flex direction={ 'column' } className={ 'pt-3 border-t border-[--gray-6]' } flexShrink={ '0' }>
             <Button size={ '3' } className={ 'justify-start m-0 cursor-pointer' } variant={ 'ghost' }>
                 <IoTrashOutline size={ '1rem' }/>
                 <Text size={ '2' }>Clear Conversations</Text>
