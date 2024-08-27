@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Box, Grid, Theme } from '@radix-ui/themes';
-import { Sidebar } from '@/components/core/navigation/side-bar';
+import { Sidebar } from '@/components/core/navigation/sidebar';
 import { TopBar } from '@/components/core/navigation/top-bar';
 
 import '@radix-ui/themes/styles.css';
