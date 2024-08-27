@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Box, Grid, Theme } from '@radix-ui/themes';
-
-import "./globals.css";
-import '@radix-ui/themes/styles.css';
-import { SideBar } from '@/components/core/navigation/side-bar';
+import { Sidebar } from '@/components/core/navigation/side-bar';
 import { TopBar } from '@/components/core/navigation/top-bar';
+
+import '@radix-ui/themes/styles.css';
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +18,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body className={inter.className}>
-                <Theme accentColor={ 'gray' }>
+                <Theme grayColor={ 'slate' } accentColor={ 'gray' }>
                     <Grid columns={ 'auto 1fr' } rows={ 'auto 1fr' } className={ 'h-dvh' }>
-                        <SideBar />
+                        <Sidebar />
                         <TopBar />
                         <Box>
                             { children }

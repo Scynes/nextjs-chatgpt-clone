@@ -9,8 +9,7 @@ interface Layout {
 export const useLayoutStore = create<Layout>()(
     persist(
         (set) => ({
-
-            sidebarExpanded: false,
+            sidebarExpanded: true,
             toggleSidebarExpanded: () => set( state => ({ sidebarExpanded: !state.sidebarExpanded }))
         }),
         {
