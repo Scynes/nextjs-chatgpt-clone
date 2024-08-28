@@ -2,7 +2,7 @@ import { CoreMessage } from 'ai';
 import mongoose, { Document, Schema } from 'mongoose';
 
 type ChatDocument = Document & {
-    uuid: string;
+    key: string;
     messages: CoreMessage[];
     createdAt: Date;
     updatedAt: Date;
@@ -10,11 +10,11 @@ type ChatDocument = Document & {
 
 const chatSchema = new Schema<ChatDocument>(
     {
-        /*uuid: {
+        key: {
             type: String,
             required: true,
             unique: true
-        },*/
+        },
         messages: {
             type: [],
             required: true
