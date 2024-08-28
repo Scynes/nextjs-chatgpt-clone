@@ -3,34 +3,15 @@
 import { ChatExampleButton } from '@/components/core/chat/chat-example-button';
 import { MessageInput } from '@/components/core/chat/message-input';
 import { Box, Container, Flex, Grid, Text } from '@radix-ui/themes';
-import { useEffect, useRef, useState } from 'react';
-import { submitMessage } from '@/actions/submit-message';
-import { CoreMessage } from 'ai';
-import { readStreamableValue } from 'ai/rsc';
-
-import Image from 'next/image';
 import { ScrollingFlexContainer } from '@/components/shared/scrolling-flex-container';
 import { EXAMPLES } from '@/constants/examples';
+import { useChatMessages } from '@/hooks/use-chat-messages';
+
+import Image from 'next/image';
 
 export default function Page() {
 
-    const [messages, setMessages] = useState<CoreMessage[]>([]);
-
-    const handleMessageSubmit = async (message: string) => {
-
-        const newMessages: CoreMessage[] = [
-            ...messages,
-            { content: message, role: 'user' },
-        ];
-
-        setMessages(newMessages);
-
-        const result = await submitMessage(newMessages);
-
-        for await (const content of readStreamableValue(result)) {
-            setMessages([ ...newMessages, { role: 'assistant', content: content as string } ]);
-        }
-    }
+    const { messages, handleMessageSubmit } = useChatMessages([]);
 
     return (
         <Grid rows={ '1fr auto' } className={ 'h-full px-3 pb-5' }>
