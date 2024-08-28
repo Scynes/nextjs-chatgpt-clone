@@ -7,19 +7,30 @@ import { IoSchoolOutline, IoListOutline } from "react-icons/io5";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { GoPencil } from "react-icons/go";
 import { useState } from 'react';
+import { submitMessage } from '@/actions/submit-message';
+import { CoreMessage } from 'ai';
+import { readStreamableValue } from 'ai/rsc';
 
 import Image from 'next/image';
-import { submitMessage } from '@/actions/submit-message';
-import { Message } from '@/types/message';
 
 export default function Page() {
 
-    const [ messages, setMessages ] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<CoreMessage[]>([]);
 
     const handleMessageSubmit = async (message: string) => {
-        setMessages( prev => [ ...prev, { role: 'user', content: message} ] );
-        const response = await submitMessage(message);
-        setMessages( prev => [ ...prev, { role: 'system', content: response } ] );
+
+        const newMessages: CoreMessage[] = [
+            ...messages,
+            { content: message, role: 'user' },
+        ];
+
+        setMessages(newMessages);
+
+        const result = await submitMessage(newMessages);
+
+        for await (const content of readStreamableValue(result)) {
+            setMessages(prev => [ ...prev, { role: 'assistant', content: content as string } ]);
+        }
     }
 
     const EXAMPLES = [
@@ -37,7 +48,7 @@ export default function Page() {
                         <Image src={ '/images/logo.svg' } width={ 50 } height={ 50 } alt={ 'ChatGPT Logo' } className={ 'mx-auto' } />
                         <Flex gap={ '4' } px={ '2' } mt={ '8' } wrap={ 'wrap' } justify={ 'center' }>
                             { EXAMPLES.map((example, index) => (
-                                <Box key={ index } onClick={ () => submitMessage(example.description) }>
+                                <Box key={ index } onClick={ () => handleMessageSubmit(example.description) }>
                                     <ChatExampleButton>
                                         <Box className={ 'mx-auto' }>
                                             { example.title }
@@ -52,15 +63,15 @@ export default function Page() {
                     </Box>
                     { messages.map((message, index) => (
                         <Box key={ index } className={ `${ message.role === 'user' && 'bg-[--accent-3] sm:max-w-[70%] ml-auto w-fit block' } flex gap-3 p-4 rounded-3xl mt-4` }>
-                            { message.role === 'system' && 
+                            { message.role !== 'user' && 
                                 <Box>
                                     <Flex justify={ 'center' } align={ 'center' } className={ 'border border-[--gray-5] rounded-full p-1 min-w-8 min-h-8' }>
                                         <Image src={ '/images/logo.svg' } width={ 18 } height={ 18 } alt={ 'ChatGPT Logo' } />
                                     </Flex>
                                 </Box>
                             }
-                            <Text size={ '2' } className={ `whitespace-pre-wrap ${ message.role === 'system' && 'mt-[6px]' }` }>
-                                { message.content }
+                            <Text size={ '2' } className={ `whitespace-pre-wrap ${ message.role !== 'user' && 'mt-[6px]' }` }>
+                                { message.content as string }
                             </Text>
                         </Box>
                     )) }

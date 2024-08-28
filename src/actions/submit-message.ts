@@ -1,21 +1,17 @@
 'use server';
 
-import OpenAI from 'openai';
+import { createStreamableValue } from 'ai/rsc';
+import { CoreMessage, streamText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
-export const submitMessage = async (prompt: string): Promise<string> => {
-
-    const openai = new OpenAI({
-        apiKey: process.env.NEXT_PRIVATE_OPENAI_API_KEY,
+export async function submitMessage(messages: CoreMessage[]) {
+    
+    const result = await streamText({
+        model: openai('gpt-4-turbo'),
+        messages,
     });
 
-    const completion = await openai.chat.completions.create({
+    const stream = createStreamableValue(result.textStream);
 
-        model: 'gpt-4',
-
-        messages: [
-            { role: "user", content: prompt }
-        ],
-    });
-
-    return completion.choices[0].message.content || 'There was an error processing the request, please try again.';
+    return stream.value;
 }
