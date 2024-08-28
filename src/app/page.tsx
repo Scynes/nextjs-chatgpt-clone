@@ -6,12 +6,13 @@ import { Box, Container, Flex, Grid, Text } from '@radix-ui/themes';
 import { IoSchoolOutline, IoListOutline } from "react-icons/io5";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { GoPencil } from "react-icons/go";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { submitMessage } from '@/actions/submit-message';
 import { CoreMessage } from 'ai';
 import { readStreamableValue } from 'ai/rsc';
 
 import Image from 'next/image';
+import { ScrollingFlexContainer } from '@/components/shared/scrolling-flex-container';
 
 export default function Page() {
 
@@ -29,7 +30,7 @@ export default function Page() {
         const result = await submitMessage(newMessages);
 
         for await (const content of readStreamableValue(result)) {
-            setMessages(prev => [ ...prev, { role: 'assistant', content: content as string } ]);
+            setMessages([ ...newMessages, { role: 'assistant', content: content as string } ]);
         }
     }
 
@@ -43,7 +44,7 @@ export default function Page() {
     return (
         <Grid rows={ '1fr auto' } className={ 'h-full px-3 pb-5' }>
             <Container maxWidth={ '770px' } asChild>
-                <Flex direction={ 'column' } justify={ messages.length > 0 ? undefined : 'center' } className={ 'h-full overflow-y-scroll pb-8' }>
+                <ScrollingFlexContainer direction={ 'column' } justify={ messages.length > 0 ? undefined : 'center' } className={ 'h-full overflow-y-scroll pb-8 scroll-smooth' }>
                     <Box className={ `${ messages.length > 0 && 'hidden' }` }>
                         <Image src={ '/images/logo.svg' } width={ 50 } height={ 50 } alt={ 'ChatGPT Logo' } className={ 'mx-auto' } />
                         <Flex gap={ '4' } px={ '2' } mt={ '8' } wrap={ 'wrap' } justify={ 'center' }>
@@ -75,7 +76,7 @@ export default function Page() {
                             </Text>
                         </Box>
                     )) }
-                </Flex>
+                </ScrollingFlexContainer>
             </Container>
             <Box>
                 <Container maxWidth={ '770px' }>

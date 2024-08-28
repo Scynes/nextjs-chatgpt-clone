@@ -7,7 +7,7 @@ import { openai } from '@ai-sdk/openai';
 export async function submitMessage(messages: CoreMessage[]) {
     
     const result = await streamText({
-        model: openai('gpt-4-turbo'),
+        model: openai('gpt-4'),
         messages,
     });
 
