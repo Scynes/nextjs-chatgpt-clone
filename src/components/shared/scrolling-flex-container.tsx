@@ -3,6 +3,10 @@
 import { Flex, FlexProps } from '@radix-ui/themes';
 import { useEffect, useRef } from 'react';
 
+/**
+ * A Radix UI Flex wrapper that automatically scrolls to the bottom when new children are added.
+ * Mimics the behavior of a chat window.
+ */
 export const ScrollingFlexContainer = ( { children, ...props }: FlexProps ) => {
 
     const flexContainerRef = useRef<HTMLDivElement>(null);

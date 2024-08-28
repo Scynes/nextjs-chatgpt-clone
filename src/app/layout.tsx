@@ -6,6 +6,7 @@ import { TopBar } from '@/components/core/navigation/top-bar';
 
 import '@radix-ui/themes/styles.css';
 import "./globals.css";
+import { connect } from '@/lib/database';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+
+    connect();
+
     return (
         <html lang="en">
             <body className={inter.className}>
