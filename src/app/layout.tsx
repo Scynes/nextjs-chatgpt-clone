@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                     <Grid columns={ 'auto 1fr' } rows={ 'auto 1fr' } className={ 'h-dvh' }>
                         <Sidebar />
                         <TopBar />
-                        <Box>
+                        <Box className='h-full overflow-y-scroll'>
                             { children }
                         </Box>
                     </Grid>
