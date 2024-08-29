@@ -10,7 +10,7 @@ export const connect = async () => {
 
     try {
 
-        connection = (await mongoose.connect(process.env.NEXT_PRIAVTE_MONGODB_URI || '')).connection;
+        connection = (await mongoose.connect(process.env.MONGODB_URI || '')).connection;
 
         return connection;
 
