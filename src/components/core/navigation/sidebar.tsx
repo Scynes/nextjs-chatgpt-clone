@@ -7,8 +7,9 @@ import { ToggleSidebarButton } from './toggle-sidebar-button';
 import { SidebarActions } from './sidebar-actions';
 import { useChatsStore } from '@/stores/use-chats-store';
 import { MdOutlineChat } from "react-icons/md";
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import Link from 'next/link';
 
 export const Sidebar = () => {
 
@@ -34,7 +35,7 @@ export const Sidebar = () => {
                     <Text>New Chat</Text>
                 </Link>
             </Button>
-            <Flex direction={ 'column' } className={ 'h-full mt-4 gap-2' }>
+            <Flex direction={ 'column' } className={ 'h-full mt-4 gap-2 overflow-y-scroll no-scrollbar' }>
                 { chats.map(chat => (
                     <Button asChild key={ chat.uuid } size={ '3' } radius={ 'large' } variant={ PATH_NAME == `/${ chat.uuid }` ? 'solid' : 'outline' } className={ 'justify-start items-center' } highContrast={ PATH_NAME == `/${ chat.uuid }` }>
                         <Link href={ `/${ chat.uuid }` }>

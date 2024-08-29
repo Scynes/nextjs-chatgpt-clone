@@ -1,7 +1,6 @@
 import { getChat } from '@/actions/get-chat';
 import { ChatWindow } from '@/components/shared/chat-window';
 import { Grid } from '@radix-ui/themes';
-import { useRouter } from 'next/router';
 
 export default async function Page ( { params }: { params: { slug: string } } ) {
 

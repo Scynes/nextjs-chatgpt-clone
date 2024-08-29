@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { Flex, FlexProps } from '@radix-ui/themes';
 import { useEffect, useRef } from 'react';

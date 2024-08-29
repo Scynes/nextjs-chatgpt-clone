@@ -3,9 +3,8 @@ import { syncChat } from '@/actions/sync-chat';
 import { useChatsStore } from '@/stores/use-chats-store';
 import { CoreMessage } from 'ai';
 import { readStreamableValue } from 'ai/rsc';
-import { revalidatePath } from 'next/cache';
-import { redirect, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 /**
