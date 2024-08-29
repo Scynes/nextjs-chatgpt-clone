@@ -1,8 +1,11 @@
 import { submitMessage } from '@/actions/submit-message';
+import { syncChat } from '@/actions/sync-chat';
 import { useChatsStore } from '@/stores/use-chats-store';
 import { CoreMessage } from 'ai';
 import { readStreamableValue } from 'ai/rsc';
-import { useState } from 'react';
+import { revalidatePath } from 'next/cache';
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 /**
@@ -17,14 +20,21 @@ export const useChatMessages = (initialMessages: CoreMessage[] = [], chatId?: st
 
     const { addChat } = useChatsStore();
 
+    const router = useRouter();
+
+    let currentChatId = chatId;
+
     // Handle the message submission from the user.
     const handleMessageSubmit = async (message: string) => {
 
-        let currentChatId = chatId;
+        const MAX_LENGTH_TITLE = 20;
+
+        const TITLE = message.length > MAX_LENGTH_TITLE ? message.substring(0, MAX_LENGTH_TITLE) : message;
 
         if (!currentChatId) {
             currentChatId = uuid();
-            addChat(currentChatId);
+            addChat(TITLE, currentChatId);
+            window.history.pushState({}, "", currentChatId);
         }
 
         const newMessages: CoreMessage[] = [ ...messages, { content: message, role: 'user' } ];
@@ -34,9 +44,18 @@ export const useChatMessages = (initialMessages: CoreMessage[] = [], chatId?: st
         // Call the server action to submit the message to ChatGPT.
         const result = await submitMessage(newMessages, currentChatId);
 
+        let finalMessage: CoreMessage | null = null;
+
         for await (const content of readStreamableValue(result)) {
+            finalMessage = { role: 'assistant', content: content as string };
             setMessages([ ...newMessages, { role: 'assistant', content: content as string } ]);
         }
+
+        if (finalMessage !== null) {
+            await syncChat([ ...newMessages, finalMessage ], currentChatId);
+        }
+
+        router.push(currentChatId);
     }
 
     return { messages, handleMessageSubmit };

@@ -8,12 +8,17 @@ import { SidebarActions } from './sidebar-actions';
 import { useChatsStore } from '@/stores/use-chats-store';
 import { MdOutlineChat } from "react-icons/md";
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export const Sidebar = () => {
 
     const { sidebarExpanded } = useLayoutStore();
 
-    const { uuids } = useChatsStore();
+    const { chats } = useChatsStore();
+
+    const PATH_NAME = usePathname();
+
+    console.log(PATH_NAME);
     
     return (
         <Flex direction={ 'column' } className={ `h-full transition-all ${ sidebarExpanded ? 'w-[260px]' : 'w-0' } overflow-hidden row-span-2 border-r border-[--gray-6]` }>
@@ -30,11 +35,11 @@ export const Sidebar = () => {
                 </Link>
             </Button>
             <Flex direction={ 'column' } className={ 'h-full mt-4 gap-2' }>
-                { uuids.map(uuid => (
-                    <Button asChild key={ uuid } size={ '3' } radius={ 'large' } variant={ 'outline' } className={ 'justify-start items-center' }>
-                        <Link key={ uuid } href={ `/${uuid}` }>
-                        <MdOutlineChat size={ '1.25rem' } />
-                        { uuid }
+                { chats.map(chat => (
+                    <Button asChild key={ chat.uuid } size={ '3' } radius={ 'large' } variant={ PATH_NAME == `/${ chat.uuid }` ? 'solid' : 'outline' } className={ 'justify-start items-center' } highContrast={ PATH_NAME == `/${ chat.uuid }` }>
+                        <Link href={ `/${ chat.uuid }` }>
+                            <MdOutlineChat size={ '1.25rem' } />
+                            { chat.title }
                         </Link>
                     </Button>
                 )) }
