@@ -23,9 +23,11 @@ export const Sidebar = () => {
                     <ToggleSidebarButton />
                 </Flex>
             </Box>
-            <Button size={ '3'} radius={ 'large' } className={ 'gap-2' } highContrast>
+            <Button asChild size={ '3'} radius={ 'large' } className={ 'gap-2' } highContrast>
+                <Link href={ '/' }>
                     <IoAdd size={ '1.5rem' }/>
                     <Text>New Chat</Text>
+                </Link>
             </Button>
             <Flex direction={ 'column' } className={ 'h-full mt-4 gap-2' }>
                 { uuids.map(uuid => (

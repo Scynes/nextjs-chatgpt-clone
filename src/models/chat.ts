@@ -12,8 +12,7 @@ const chatSchema = new Schema<ChatDocument>(
     {
         key: {
             type: String,
-            required: true,
-            unique: true
+            required: true
         },
         messages: {
             type: [],
@@ -25,4 +24,4 @@ const chatSchema = new Schema<ChatDocument>(
     }
 )
 
-export const Chat = mongoose.model<ChatDocument>('Chat', chatSchema);
+export const Chat = mongoose.models.Chat || mongoose.model<ChatDocument>('Chat', chatSchema);

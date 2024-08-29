@@ -8,10 +8,11 @@ import { EXAMPLES } from '@/constants/examples';
 
 import Image from 'next/image';
 import { MessageInput } from '../core/chat/message-input';
+import { CoreMessage } from 'ai';
 
-export const ChatWindow = () => {
+export const ChatWindow = ({ chatId, messages: _messages }: { chatId?: string, messages?: CoreMessage[] }) => {
 
-    const { messages, handleMessageSubmit } = useChatMessages([]);
+    const { messages, handleMessageSubmit } = useChatMessages(_messages || [], chatId);
 
     return (
         <>
